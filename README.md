@@ -99,5 +99,5 @@ For any questions or feedback, please open an issue on the [GitHub repository](h
 ---
 
 <div align="center">
-  Made with ❤️ by Your Name
+  Made with ❤️ by Ashvini Singh Yadav
 </div>
