@@ -1,5 +1,7 @@
+
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuiz } from '../context/QuizContext';
 import QuestionCard from '../components/QuestionCard';
@@ -15,7 +17,9 @@ const Quiz = () => {
     currentQuestionIndex,
     score,
     timeRemaining,
+    // eslint-disable-next-line no-unused-vars
     quizCompleted,
+    // eslint-disable-next-line no-unused-vars
     selectedAnswers,
     startQuiz,
     answerQuestion,

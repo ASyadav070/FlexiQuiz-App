@@ -1,13 +1,17 @@
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/useAuth';
 import Button from '../components/Button';
 import { 
   FiSun, 
   FiMoon, 
   FiPlay, 
   FiInfo, 
-  FiX 
+  FiX,
+  FiUser,
+  FiLogOut
 } from 'react-icons/fi';
 import { useState } from 'react';
 
@@ -15,16 +19,23 @@ import { useState } from 'react';
 const Home = () => {
   const navigate = useNavigate();
   const { darkMode, toggleTheme } = useTheme();
+  const { currentUser, logout } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(false);
 
   const startQuiz = () => {
     setIsLoading(true);
-    // Simulate loading time
-    setTimeout(() => {
-      navigate('/quiz');
-      setIsLoading(false);
-    }, 1000);
+    
+    // If user is authenticated, navigate to quiz page
+    // Otherwise navigate to login page
+    if (currentUser) {
+      setTimeout(() => {
+        navigate('/quiz');
+        setIsLoading(false);
+      }, 1000);
+    } else {
+      navigate('/login');
+    }
   };
 
   const toggleHowToPlay = () => {
@@ -36,7 +47,41 @@ const Home = () => {
       {/* Header - Blended with background */}
       <header className="z-10 bg-gradient-to-b from-blue-50/90 to-blue-50/50 dark:from-gray-900/90 dark:to-gray-900/50 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="w-10"></div> {/* Spacer for centering */}
+          <div className="flex items-center space-x-2">
+            {currentUser ? (
+              <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 py-1 px-3 rounded-md bg-white/50 dark:bg-gray-800/50 shadow-sm">
+                  <FiUser className="text-indigo-600 dark:text-indigo-400" />
+                  <span className="text-sm text-gray-700 dark:text-gray-300">{currentUser.name}</span>
+                </div>
+                <button
+                  onClick={() => {
+                    logout();
+                    navigate('/login');
+                  }}
+                  className="text-sm py-1 px-3 rounded-md bg-red-500/80 text-white shadow-sm hover:shadow transition-all duration-300 flex items-center space-x-1"
+                >
+                  <FiLogOut size={14} />
+                  <span>Logout</span>
+                </button>
+              </div>
+            ) : (
+              <>
+                <button
+                  onClick={() => navigate('/login')}
+                  className="text-sm py-1 px-3 rounded-md bg-white/50 dark:bg-gray-800/50 shadow-sm hover:shadow transition-all duration-300 text-indigo-600 dark:text-indigo-400"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => navigate('/signup')}
+                  className="text-sm py-1 px-3 rounded-md bg-indigo-600/90 text-white shadow-sm hover:shadow transition-all duration-300"
+                >
+                  Sign up
+                </button>
+              </>
+            )}
+          </div>
           <div className="bg-white/10 dark:bg-gray-800/20 px-6 py-2 rounded-xl backdrop-blur-sm">
             <h1 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 text-center">
               FlexiQuiz
