@@ -10,6 +10,16 @@ coverage/
 build/
 dist/
 
+# Frontend files that should not be in this repo
+# These files belong in the frontend/QuizApp repository
+eslint.config.js
+index.html
+postcss.config.js
+public/
+src/
+tailwind.config.js
+vite.config.js
+
 # Environment variables
 .env
 .env.local
